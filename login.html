@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HTML login Form</title>
+    <link rel="stylesheet" type="text/css" href="global.css">
+</head>
+<body>
+
+<div class="form-container">
+    <div class="user-img"></div>
+    <ul class="list">
+        <li><h2>Member login</h2></li>
+        <li><input type="email" id="email" placeholder="Email"></li>
+        <li><input type="password" id="password" name="Password" placeholder="......"></li>
+        <li><input type="button" name="Submit" onclick="check()" value="Submit"></li>
+        <li>Forget Password?</li>
+    </ul>
+
+</div>
+<script>
+    function check(){
+
+        const url = "http://api.troopers.com.my:5000/login";
+        const data ={"email": document.getElementById('email').value,"password": document.getElementById('password').value};
+        
+        const other_params = {
+            headers : {"content-type" : "application/json; charset=UTF-8"},
+            body:  JSON.stringify(data),
+            method : "POST",
+            mode: "cors"
+
+        };
+
+        fetch(url,other_params)
+             .then(function(response)
+             {
+                 if(response.ok)
+                 {
+                     return response.json();
+                 }
+                 else
+                 {
+                     throw new Error ("Could not reach the API: "+response.statusText);
+                 }
+             })
+             .then(function(data)
+             {
+                 document.getElementById("message").innerHTML=data.encoded;
+             })
+             .catch(function(error)
+             {
+                console.log(error)
+             })
+             return true;
+    }
+</script>
+</body>
+</html>
+
+<!-- http://api.troopers.com.my:5000/login -->
+
